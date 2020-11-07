@@ -26,8 +26,8 @@ Usage:
   netgear-m1.sh -h | --help
 
 Options:
-  -h --help  Show usage screen
-  --json     Output full router status in JSON format
+  -h --help  Show usage screen.
+  --json     Output full router status in JSON format.
 
 Commands:
   status     Output router status. Default is brief human readable output.
