@@ -16,7 +16,12 @@ The utility only requires very common UNIX tools:
 
 ## Commands
 
-The commands control the router.
+The utility has the following commands for controlling the router:
+- status
+- reboot
+- disconnect
+- connect
+- reconnect
 
 By default the utility connects router at IP address 192.168.1.1.
 Another IP address can be provided environment variable `NETGEAR_M1_IP`.
