@@ -14,21 +14,59 @@ The utility only requires very common UNIX tools:
 - [curl](https://curl.haxx.se/)
 - [mktemp](https://www.gnu.org/software/autogen/mktemp.html)
 
+## Usage
+
+```
+Usage:
+  netgear-m1.sh status [--json]
+  netgear-m1.sh reboot
+  netgear-m1.sh connect
+  netgear-m1.sh disconnect
+  netgear-m1.sh reconnect
+  netgear-m1.sh -h | --help
+
+Options:
+  -h --help  Show usage screen
+  --json     Output full router status in JSON format
+
+Commands:
+  status     Output router status. Default is brief human readable output.
+  reboot     Reboot router.
+  connect    Turn cellular data connection on.
+  disconnect Turn cellular data connection off.
+  reconnect  Turn cellular data connection off and on again.
+
+By default the utility connects router at IP address 192.168.1.1.
+Another IP address can be provided environment variable NETGEAR_M1_IP.
+```
+
 ## Commands
 
 The utility has the following commands for controlling the router:
+
 - status
 - reboot
 - disconnect
 - connect
 - reconnect
 
-By default the utility connects router at IP address 192.168.1.1.
-Another IP address can be provided environment variable `NETGEAR_M1_IP`.
+All commands except status require admin password of the router. The utility will ask for the password. The utility does not save the password, but it stores a session cookie received from the router to a temporary file, which is deleted when the utility exists.
+
+If you want to run the utility with no user interaction, you can pipe the password to the utility like this:
+
+```
+$ echo $PASSWORD | ./netgear-m1.sh reboot
+```
+
+If your router is not at IP address `192.168.1.1`, please provide alternative IP address in environment variable `NETGEAR_M1_IP`. For example, like this:
+
+```
+$ NETGEAR_M1_IP=10.0.0.1 ./netgear-m1.sh reboot
+```
 
 ### status
 
-This command returns basic information about the status of the router. Status information can be queried without providing admin password.
+This command returns basic information about the status of the router. Status information can be queried without the admin password.
 
 ```
 $ ./netgear-m1.sh status
