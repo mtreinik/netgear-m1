@@ -1,6 +1,6 @@
 # netgear-m1
 
-An utility for querying and controlling a [Netgear M1 router](https://www.netgear.com/home/products/mobile-broadband/mobilerouters/MR1100.aspx).
+`netgear-m1.sh` is a command line utility for querying and controlling a [Netgear M1 router](https://www.netgear.com/home/products/mobile-broadband/mobilerouters/MR1100.aspx).
 
 I am mostly happy with my Netgear M1 mobile router, but the cellular data connection tends to slow down over time. The connection speed recovers if I reboot the router. I made this utility for an easy way for periodically rebooting the router. At first I thought reconnecting the mobile data connection would suffice, so I implemented commands for connecting and disconnecting as well.
 
