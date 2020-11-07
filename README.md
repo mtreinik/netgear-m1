@@ -8,7 +8,11 @@ This utility is based on a Perl script I found on an [Netgear community discussi
 
 ## Requirements
 
-The utility requires bash, curl and mktemp
+The utility only requires very common UNIX tools:
+
+- [bash](https://www.gnu.org/software/bash/)
+- [curl](https://curl.haxx.se/) and
+- [mktemp](https://www.gnu.org/software/autogen/mktemp.html)
 
 ## Commands
 
@@ -59,6 +63,8 @@ Logged in to Nighthawk M1
 Disconnected cellular data
 ```
 
+![mobile data connection disconnected](https://raw.githubusercontent.com/mtreinik/netgear-m1/main/docs/disconnected.png)
+
 ### connect
 
 This command connects the cellular data connection of the router.
@@ -69,6 +75,8 @@ Password:
 Logged in to Nighthawk M1
 Connected cellular data
 ```
+
+![mobile data connection connected](https://raw.githubusercontent.com/mtreinik/netgear-m1/main/docs/connected.png)
 
 ### reconnect
 
