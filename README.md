@@ -2,7 +2,7 @@
 
 An utility for querying and controlling a [Netgear M1 router](https://www.netgear.com/home/products/mobile-broadband/mobilerouters/MR1100.aspx).
 
-I am mostly happy with my Netgear M1 mobile router, but the cellular data connection tends to slow down over time but recovers if I reboot the router. I made this utility for an easy way for periodically rebooting the router.
+I am mostly happy with my Netgear M1 mobile router, but the cellular data connection tends to slow down over time. The connection speed recovers if I reboot the router. I made this utility for an easy way for periodically rebooting the router. At first I thought reconnecting the mobile data connection would suffice, so I implemented commands for connecting and disconnecting as well.
 
 This utility is based on a Perl script I found on an [Netgear community discussion thread](https://community.netgear.com/t5/Mobile-Routers-Hotspots-Modems/MR1100-fails-to-reestablish-the-connection-after-the-hang-up/m-p/1918046). Use at your own risk. I have no affiliation with Netgear.
 
@@ -11,7 +11,7 @@ This utility is based on a Perl script I found on an [Netgear community discussi
 The utility only requires very common UNIX tools:
 
 - [bash](https://www.gnu.org/software/bash/)
-- [curl](https://curl.haxx.se/) and
+- [curl](https://curl.haxx.se/)
 - [mktemp](https://www.gnu.org/software/autogen/mktemp.html)
 
 ## Commands
