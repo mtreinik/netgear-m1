@@ -34,6 +34,7 @@ function print_usage {
   cat <<EOF
 Usage:
   netgear-m1.sh status [--json]
+  netgear-m1.sh ping
   netgear-m1.sh reboot
   netgear-m1.sh connect
   netgear-m1.sh disconnect
@@ -46,6 +47,7 @@ Options:
 
 Commands:
   status     Output router status. Default is brief human readable output.
+  ping       Ping router until it is available.
   reboot     Reboot router.
   connect    Turn cellular data connection on.
   disconnect Turn cellular data connection off.
@@ -169,6 +171,10 @@ if [ "$#" -gt 2 ]; then
 fi
 
 case "$1" in
+  ping)
+    wait_for_router_up
+    exit
+    ;;
   status)
     start_session "$2"
     ;;

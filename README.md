@@ -84,6 +84,17 @@ The `--json` flag can be used to store all status information provided by the ro
 $ ./netgear-m1.sh status --json > model.json
 ```
 
+### ping
+
+This command sends pings to the network adapter of the router until it responds. After that it waits for the router service API to be available.
+
+```
+$ ./netgear-m1.sh ping
+Waiting for router startup
+Waiting for router services
+Router is up
+```
+
 ### reboot
 
 This command reboots the router
@@ -92,7 +103,12 @@ This command reboots the router
 $ ./netgear-m1.sh reboot
 Password:
 Logged in to Nighthawk M1
-Rebooting...
+Rebooting router
+Waiting for router shutdown..
+Router is down
+Waiting for router network adapter..............
+Waiting for router services
+Router is up
 ```
 
 ### disconnect
