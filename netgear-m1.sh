@@ -87,11 +87,47 @@ function login {
 
 function reboot {
   if post general.shutdown restart "${URL_JSON_OK}" /success.json /error.json; then
-    echo Rebooting...
+    echo Rebooting router
   else
     echo Failed to reboot router
     exit_program
   fi
+}
+
+function no_ping {
+  if ping -c 1 -t 1 "$IP"; then
+    sleep 1
+    return 1
+  else
+    return 0
+  fi
+}
+
+function wait_for_command {
+  trap "echo; exit_program" SIGINT SIGTERM
+  echo -n "Waiting for $1"
+  TRIES=60
+  until $2 &> /dev/null ; do
+    echo -n "."
+    if [ $TRIES -lt 1 ]; then
+      echo
+      echo Timeout
+      exit 1
+    fi
+    ((TRIES-=1))
+  done
+  echo
+}
+
+function wait_for_router_down {
+  wait_for_command "router shutdown" "no_ping"
+  echo Router is down
+}
+
+function wait_for_router_up {
+  wait_for_command "router network adapter" "ping -c 1 -t 2 $IP"
+  wait_for_command "router services" "curl --silent --connect-timeout 1 ${URL_SESSION}"
+  echo Router is up
 }
 
 function connect {
@@ -167,6 +203,8 @@ case "$1" in
   reboot)
     login
     reboot
+    wait_for_router_down
+    wait_for_router_up
     ;;
   connect)
     login
