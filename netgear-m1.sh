@@ -16,13 +16,13 @@ URL_JSON_OK="${URL_BASE}/success.json"
 function post {
   REDIRECT_URL=$(curl --location --silent --output /dev/null --write-out "%{url_effective}" \
     --header "Content-Type: application/x-www-form-urlencoded" \
-    --cookie-jar ${COOKIE_JAR} \
-    --cookie ${COOKIE_JAR} \
+    --cookie-jar "${COOKIE_JAR}" \
+    --cookie "${COOKIE_JAR}" \
     --data-urlencode "token=${TOKEN}" \
     --data-urlencode "err_redirect=$5" \
     --data-urlencode "ok_redirect=$4" \
     --data-urlencode "$1=$2" \
-    ${URL_CONFIG})
+    "${URL_CONFIG}")
   if [ "$3" == "$REDIRECT_URL" ]; then
     return 0
   else
@@ -63,30 +63,30 @@ function start_session {
 
   # start session and store it in cookie jar
   COOKIE_JAR=$(mktemp)
-  curl --silent --output /dev/null --head --cookie-jar ${COOKIE_JAR} "${URL_SESSION}"
+  curl --silent --output /dev/null --head --cookie-jar "${COOKIE_JAR}" "${URL_SESSION}"
 
   # get security token
-  JSON=$(curl --silent --cookie ${COOKIE_JAR} --get "${URL_JSON}")
-  TOKEN=$(echo $JSON | grep -o '"secToken": "[^"]*",' | sed 's/",//;s/.*"//')
+  JSON=$(curl --silent --cookie "${COOKIE_JAR}" --get "${URL_JSON}")
+  TOKEN=$(echo "$JSON" | grep -o '"secToken": "[^"]*",' | sed 's/",//;s/.*"//')
 }
 
 # prints a value specified by key $1 from JSON object
 function get_from_json {
-  echo $JSON | grep -o -e "$1\": *[^,]*," | head -1 | sed 's/.*: *//;s/^\"//;s/,$//;s/\"$//'
+  echo "$JSON" | grep -o -e "$1\": *[^,]*," | head -1 | sed 's/.*: *//;s/^\"//;s/,$//;s/\"$//'
 }
 
 function login {
   echo -ne "Logging in...     \r"
-  if post session.password ${PASSWORD} ${URL_LOGIN_OK} /index.html /index.html?loginfailed; then
-    echo Logged in to $(get_from_json deviceName)
+  if post session.password "${PASSWORD}" "${URL_LOGIN_OK}" /index.html /index.html?loginfailed; then
+    echo Logged in to "$(get_from_json deviceName)"
   else
-    echo Failed to log in to router at IP address $IP. Invalid password?
+    echo Failed to log in to router at IP address "$IP". Invalid password?
     exit_program
   fi
 }
 
 function reboot {
-  if post general.shutdown restart ${URL_JSON_OK} /success.json /error.json; then
+  if post general.shutdown restart "${URL_JSON_OK}" /success.json /error.json; then
     echo Rebooting...
   else
     echo Failed to reboot router
@@ -95,7 +95,7 @@ function reboot {
 }
 
 function connect {
-  if post wwan.autoconnect HomeNetwork ${URL_JSON_OK} /success.json /error.json; then
+  if post wwan.autoconnect HomeNetwork "${URL_JSON_OK}" /success.json /error.json; then
     echo Connected cellular data
   else
     echo Failed to connect cellular data
@@ -104,7 +104,7 @@ function connect {
 }
 
 function disconnect {
-  if post wwan.autoconnect Never ${URL_JSON_OK} /success.json /error.json; then
+  if post wwan.autoconnect Never "${URL_JSON_OK}" /success.json /error.json; then
     echo Disconnected cellular data
   else
     echo Failed to disconnect cellular data
@@ -115,7 +115,7 @@ function disconnect {
 # remove possible cookie jar
 function exit_program {
   if [ -f "${COOKIE_JAR}" ]; then
-    rm ${COOKIE_JAR}
+    rm "${COOKIE_JAR}"
   fi
   exit
 }
@@ -134,10 +134,10 @@ fi
 
 case "$1" in
   status)
-    start_session $2
+    start_session "$2"
     ;;
   reboot | connect | disconnect | reconnect)
-    read -s -p "Password: " PASSWORD
+    read -r -s -p "Password: " PASSWORD
     if [ -t 0 ]; then echo; fi
     start_session
     ;;
@@ -154,7 +154,7 @@ esac
 case "$1" in
   status)
     if [ "$2" == "--json" ]; then
-      echo $JSON
+      echo "$JSON"
     else
       echo "             Device name: $(get_from_json deviceName)"
       echo "    Battery charge level: $(get_from_json battChargeLevel)"
