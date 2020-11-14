@@ -4,6 +4,8 @@
 # Run ./netgear-m1.sh for usage
 #
 
+trap "echo; exit_program" SIGINT SIGTERM
+
 IP=${NETGEAR_M1_IP:-"192.168.1.1"}
 
 URL_BASE="http://$IP"
@@ -106,7 +108,6 @@ function no_ping {
 }
 
 function wait_for_command {
-  trap "echo; exit_program" SIGINT SIGTERM
   echo -n "Waiting for $1"
   TRIES=60
   until $2 &> /dev/null ; do
